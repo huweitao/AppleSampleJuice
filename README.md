@@ -1,5 +1,6 @@
 # WWDC 2019 AppleSample:Juice
-# This sample is modified for test 
+This sample is modified for test 
+
 # Adding the Sign In with Apple Flow to Your App
 
 Provide a fast, secure, and privacy-friendly way for users to set up an account and start using your services.

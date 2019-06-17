@@ -1,4 +1,4 @@
-# WWDC 2019 AppleSample:Juice
+# WWDC 2019 Apple sample project: Juice
 This sample is modified for test 
 
 # Adding the Sign In with Apple Flow to Your App

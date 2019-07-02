@@ -8,6 +8,8 @@ Login view controller.
 import UIKit
 import AuthenticationServices
 
+let TestAuthInfoKey = "com.apple.authInfo.key"
+
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginProviderStackView: UIStackView!
@@ -92,7 +94,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
              status ==> unknown
              JWT token ==> eyJraWQiOiJBSURPUEsxIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLmV4YW1wbGUuYXBwbGUtc2FtcGxlY29kZS5qdWljZUhDOFJFMlJWODYiLCJleHAiOjE1NjA3NTUyMTYsImlhdCI6MTU2MDc1NDYxNiwic3ViIjoiMDAwODA2LmU3ZGIzOGMwYjgzOTQyZGJiYmZkNjI2ODFlM2FkOTIyLjAzMTgifQ.aD1j9oIf1ebRMulNBnvDcoQoKrTBbG5zbDiQCekQA4EVX6a0_QgAmmir90loJovs4bJqy4ecXQ9LPb-yYZRbOFXdrqSDV1t47Aq03Di06t5vJkv6zEu1V8WalZW1tw-MxK2izwg1Fe01aJBS_cQCzHRqW5ocuLbqB6ioi2j71h_hPrBcfydtP20iNzU52gVViLsJtr7Qg34BKyY1aD0rR7EBRqYodO9rxGswcD7LOzKrTZAHUeEGmgxgkY7bY915xO6FoDIjmJYomRyZUTyriUB3ngNgX_TNekd8Uo2a3PFlMvbDfjAwJzF1JFVJ9xPJYFZG3jDE6a93X3NJJA3JZg
              authCode ==> c765291a667cf456299c6faff7562cbda.0.myqw.jv3MaCjuOF8vwiUiu409_Q
-             
+                 c1af1cd295da545f8b27be7bcdc56b2a7.0.myqw.rWuzL-QwFiHwF0rkUbYXzQ
              JWT原理：http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html
              JWT解析：http://jwt.calebb.net/
              {
@@ -122,16 +124,32 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             // For the purpose of this demo app, show the Apple ID credential information in the ResultViewController.
             if let viewController = self.presentingViewController as? ResultViewController {
                 DispatchQueue.main.async {
+                    
+                    var authInfo:[String:String] = ["user":userIdentifier,
+                                                    "identityToken":token ?? "",
+                                                    "realUserStatus":userKey,
+                                                    "authorizationCode":authCode ?? ""
+                    ]
+                    
+                    var trueName = ""
                     viewController.userIdentifierLabel.text = userIdentifier
                     if let givenName = fullName?.givenName {
+                        trueName += givenName + "_"
                         viewController.givenNameLabel.text = givenName
                     }
                     if let familyName = fullName?.familyName {
+                        trueName += familyName
                         viewController.familyNameLabel.text = familyName
                     }
                     if let email = email {
                         viewController.emailLabel.text = email
+                        authInfo["email"] = email
                     }
+                    authInfo["fullName"] = trueName
+                    
+                    UserDefaults.standard.set(authInfo, forKey: TestAuthInfoKey)
+                    UserDefaults.standard.synchronize()
+                    
                     self.dismiss(animated: true, completion: nil)
                 }
             }

@@ -180,7 +180,7 @@
                                     <constraint firstAttribute="height" constant="40" id="Lhz-x4-rtr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
-                                <state key="normal" title="Check Auth">
+                                <state key="normal" title="Check Validate">
                                     <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 </state>
                                 <connections>

@@ -54,6 +54,47 @@ class ResultViewController: UIViewController {
     
     // MARK: - Tools
     
+    func isJWTValid(jwtString:String?,n:String?,e:String?) -> Bool {
+        guard let jwtString = jwtString, let modulus = n, let exponent = e else {
+            print("InValid Input for JWT!")
+            return false
+        }
+        return true
+    }
+    
+//    func generateRSAPublicKeyWithModulus(modulus:Data,exponent:Data) -> Data {
+//        let DEFAULT_EXPONENT:[UInt8] = [0x01, 0x00, 0x01,]
+//        let UNSIGNED_FLAG_FOR_BYTE:UInt8 = 0x81
+//        let UNSIGNED_FLAG_FOR_BYTE2:UInt8 = 0x82
+//        let UNSIGNED_FLAG_FOR_BIGNUM:UInt8 = 0x00
+//        let SEQUENCE_TAG:UInt8 = 0x30
+//        let INTEGER_TAG:UInt8 = 0x02
+//        
+//        let modulusBytes = [UInt8](modulus)
+//        let exponentBytes = (exponent == nil) ? DEFAULT_EXPONENT : [UInt8](exponent)
+//        
+//        //(1) calculate lengths
+//        //- length of modulus
+//        var lenMod = modulus.count;
+//        if (modulusBytes[0] >= 0x80) {
+//            lenMod += 1  //place for UNSIGNED_FLAG_FOR_BIGNUM
+//        }
+//        let lenModHeader:Int = 2 + (lenMod >= 0x80 ? 1 : 0) + (lenMod >= 0x0100 ? 1 : 0)
+//        
+//        //- length of exponent
+//        let lenExp:Int = (exponent == nil) ? DEFAULT_EXPONENT.count : exponent.count
+//        let lenExpHeader:Int = 2
+//        
+//        //- length of body
+//        let lenBody:Int = lenModHeader + lenMod + lenExpHeader + lenExp;
+//        //- length of total
+//        let lenTotal:Int = 2 + (lenBody >= 0x80 ? 1 : 0) + (lenBody >= 0x0100 ? 1 : 0) + lenBody;
+//        
+//        let index:Int = 0;
+//        UInt8* byteBuffer = malloc(sizeof(UInt8) * lenTotal)
+//        memset(byteBuffer, 0x00, sizeof(UInt8) * lenTotal)
+//    }
+    
     func postValidateToken() {
         guard let authInfo:Dictionary<String,String> = UserDefaults.standard.object(forKey: TestAuthInfoKey) as? Dictionary<String,String>, let jwtString:String = authInfo["identityToken"] else {
             print("Fail to get JWT string")
